@@ -1,0 +1,2 @@
+class UsersQuestionsAnswersImport < ApplicationRecord
+end
