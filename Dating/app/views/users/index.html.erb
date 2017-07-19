@@ -1,0 +1,59 @@
+<div class="container">
+  <h1>All Users</h1>
+  <%= link_to "Add a New User", new_user_path, class: "btn btn-large btn-primary btn-block", role: "button" %>
+
+  <table class="table table-striped table-bordered"
+    <thead>
+      <tr>
+        <th>
+          User Name
+        </th>
+        <th>
+          User ID
+        </th>
+        <th>
+          Gender Identity
+        </th>
+        <th>
+          Match Score
+        </th>
+        <th>
+          Mutal Like
+        </th>
+        <th>
+          Degrees of Separation
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |u| %>
+        <tr>
+          <td>
+            <%= link_to "#{u.user_name}", user_path(u.id) %>
+          </td>
+          <td>
+            <%= u.id %>
+          </td>
+          <td>
+            <%= u.gender_identity %>
+          </td>
+          <td>
+            <p>
+              score
+            </p>
+          </td>
+          <td>
+            <p>
+              liikes
+            </p>
+          </td>
+          <td>
+            <p>
+              degrees
+            </p>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
