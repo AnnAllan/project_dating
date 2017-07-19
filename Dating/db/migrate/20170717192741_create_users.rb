@@ -8,7 +8,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :phone, null:false
       t.string :credit_card, null: false
       t.integer :home_address
-      t.integer :billing_address, null: false
+      t.integer :billing_address
       t.integer :gender_identity, null: false
       t.integer :bio
 

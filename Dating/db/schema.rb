@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170717195201) do
+ActiveRecord::Schema.define(version: 20170718224422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 20170717195201) do
     t.string   "city"
     t.string   "state_abbr"
     t.string   "zip",               null: false
-    t.integer  "user_id",           null: false
     t.boolean  "billing_address"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -34,12 +33,12 @@ ActiveRecord::Schema.define(version: 20170717195201) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.string   "author"
     t.text     "message"
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "user_id"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
   end
 
@@ -81,7 +80,7 @@ ActiveRecord::Schema.define(version: 20170717195201) do
     t.string   "phone",           null: false
     t.string   "credit_card",     null: false
     t.integer  "home_address"
-    t.integer  "billing_address", null: false
+    t.integer  "billing_address"
     t.integer  "gender_identity", null: false
     t.integer  "bio"
     t.datetime "created_at",      null: false
@@ -90,10 +89,10 @@ ActiveRecord::Schema.define(version: 20170717195201) do
   end
 
   create_table "users_questions_answers_imports", force: :cascade do |t|
-    t.integer  "user_id",     null: false
-    t.integer  "question_id", null: false
-    t.integer  "answer_id",   null: false
-    t.integer  "import_id",   null: false
+    t.integer  "user_id"
+    t.integer  "question_id"
+    t.integer  "answer_id"
+    t.integer  "import_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["answer_id"], name: "index_users_questions_answers_imports_on_answer_id", using: :btree

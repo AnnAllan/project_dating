@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :questions
 
   has_many :users_questions_answers_imports
-  has_many :answers, thorugh: :users_questions_answers_imports,
+  has_many :answers, through: :users_questions_answers_imports,
                      dependent: :nullify
   has_many :imports, through: :users_questions_answers_imports,
                      dependent: :nullify
