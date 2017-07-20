@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718224422) do
+ActiveRecord::Schema.define(version: 20170720154402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,13 @@ ActiveRecord::Schema.define(version: 20170718224422) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "questions_possible_answers", force: :cascade do |t|
+    t.integer  "question_id"
+    t.integer  "answer_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "scores", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "partner_id"
@@ -82,9 +89,9 @@ ActiveRecord::Schema.define(version: 20170718224422) do
     t.integer  "home_address"
     t.integer  "billing_address"
     t.integer  "gender_identity", null: false
-    t.integer  "bio"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.text     "bio"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 

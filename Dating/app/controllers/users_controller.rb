@@ -1,14 +1,17 @@
 class UsersController < ApplicationController
   def index
     @users = User.all
+
   end
 
   def show
     @user = User.find(params[:id])
+
   end
 
   def new
     @user = User.new
+
   end
 
   def create
@@ -24,6 +27,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+
   end
 
   def update
@@ -50,6 +54,6 @@ class UsersController < ApplicationController
 
   private
   def safe_user_params
-    params.require(:user).permit(:first_name, :last_name, :user_name, :email, :phone, :credit_card, :home_address, :billing_address, :gender_identity, :bio)
+    params.require(:user).permit(:first_name, :last_name, :user_name, :email, :phone, :credit_card, :gender_identity, :bio, {addresses_attributes: [:street_address, :secondary_address, :city, :state_abbr, :zip, :billing]})
   end
 end

@@ -26,7 +26,7 @@ puts "Creating 20 users..."
               phone: Faker::PhoneNumber.phone_number,
               credit_card: Faker::Business.credit_card_number,
               gender_identity: Faker::Number.between(1, 3),
-              bio: Faker::SlackEmoji.people,
+              bio: Faker::HitchhikersGuideToTheGalaxy.quote,
               home_address: i + 1,
               billing_address: i + 21)
 end
@@ -49,7 +49,7 @@ puts "40 addresses created."
 
 
 puts "Creating 7 questions..."
-questions_content = ["What gender would you prefer to pursue?", "What is your ideal weekend activity?", "What is your favorite food?", "Who is your favorite fictional character?", "Are you a smoker?", "Do you have/want children?", "do you have/want pets?"]
+questions_content = ["What gender would you prefer to pursue?", "What is your ideal weekend activity?", "What is your favorite food?", "Who is your favorite fictional character?", "Are you a smoker?", "Do you have/want children?", "Do you have/want pets?"]
 7.times do |i|
   Question.create(content: questions_content[i],
                   user_id: 1)
@@ -86,21 +86,21 @@ import_names = ["Not important", "Somewhat important", "Very important", "Impera
 end
 puts "Imports created."
 
-puts "Creating Likes"
+puts "Creating Likes..."
 10.times do |i|
   Like.create(liker_id: i + 2,
                liked_id: i + 3)
 end
 puts "Likes created."
 
-puts "Creating user answers and question rankings"
+puts "Creating user answers and question rankings..."
 def generate_answer(j)
   if j == 1
     ans = rand(1..3)
   elsif j <= 4
     ans = rand(1..4)
   else
-    ans = (1..2)
+    ans = rand(1..2)
   end
   return ans
 end
@@ -118,8 +118,34 @@ end
   7.times do |j|
   UsersQuestionsAnswersImport.create(user_id: i + 1,
                                     question_id: j + 1,
-                                    answer_id: generate_answer(j),
-                                    import_id: generate_import(j))
+                                    answer_id: generate_answer(j + 1),
+                                    import_id: generate_import(j + 1))
   end
 end
 puts "User answers and question rankings created."
+
+puts "Creating questions possible answers..."
+def generate_question_id(a)
+  case a
+  when 1, 2, 3
+    question_id = 1
+  when 4, 5, 6, 7
+    question_id = 2
+  when 8, 9, 10, 11
+    question_id = 3
+  when 12, 13, 14, 15
+    question_id = 4
+  when 16, 17
+    question_id = 5
+  when 18, 19
+    question_id = 6
+  else
+    question_id = 7
+  end
+end
+(answers_content.count).times do |i|
+  a = i + 1
+  QuestionsPossibleAnswer.create(answer_id: a,
+                                  question_id: generate_question_id(a))
+end
+puts "Question and possible answers created."

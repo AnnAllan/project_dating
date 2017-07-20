@@ -1,0 +1,16 @@
+Questions index
+<div class="container">
+  <% @questions.each do |q| %>
+    <h4>Question # <%= q.id %></h4>
+    <h3><%= q.content %></h3>
+    <% @answers.each do |a| %>
+      <%= a.content %>
+    <% end %>
+    <h5>How important is this question to you?</h5>
+    <% @imports.each do |i| %>
+      <%= i.name %>
+    <% end %>
+    <br />
+    <br />
+  <% end %>
+</div>

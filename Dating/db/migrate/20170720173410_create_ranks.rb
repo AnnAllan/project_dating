@@ -1,8 +1,9 @@
-class CreateImports < ActiveRecord::Migration[5.0]
+class CreateRanks < ActiveRecord::Migration[5.0]
   def change
-    create_table :imports do |t|
+    create_table :ranks do |t|
       t.string :name
       t.integer :value
+      
 
       t.timestamps
     end

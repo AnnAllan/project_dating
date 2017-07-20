@@ -6,6 +6,7 @@ class CreateLikes < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_index :likes, [:liker_id, :liked_id], unique: true
+    add_index :likes, :liker_id
+    add_index :likes, :liked_id
   end
 end

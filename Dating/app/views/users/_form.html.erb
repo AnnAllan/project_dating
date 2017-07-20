@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <%= render "users/shared/errors", object: user %>
+      <%= form_for user, {html: {class: "form-horizontal"}} do |f| %>
+        <h2><%= form_type %> user: </h2>
+
+        <div class="form-group">
+          <%= f.label :first_name, :class => "col-md-4 control-label" %>
+          <div class="col-md-8">
+            <%= f.text_field :first_name, placeholder: "enter first name here", :class => "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :last_name, :class => "col-md-4 control-label" %>
+          <div class="col-md-8">
+            <%= f.text_field :last_name, placeholder: "enter last name here", :class => "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :user_name, :class => "col-md-4 control-label" %>
+          <div class="col-md-8">
+            <%= f.text_field :user_name, placeholder: "enter user name here", :class => "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+              <h6>Gender Identity</h6>
+              <br />
+              <h6>Male</h6>
+              <%= f.radio_button("gender_identity", 1,) %>
+              <h6>Female</h6>
+              <%= f.radio_button("gender_identity", 2)%>
+              <h6>Prefer not to answer</h6>
+              <%= f.radio_button("gender_identity", 3) %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email, :class => "col-md-4 control-label" %>
+          <div class="col-md-8">
+            <%= f.text_field :email, placeholder: "enter email here", :class => "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :phone, :class => "col-md-4 control-label" %>
+          <div class="col-md-8">
+            <%= f.text_field :phone, placeholder: "enter phone number here", :class => "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :credit_card, :class => "col-md-4 control-label" %>
+          <div class="col-md-8">
+            <%= f.text_field :credit_card, placeholder: "enter credit card number here", :class => "form-control" %>
+          </div>
+        </div>
+
+        <h5>Home Address</h5>
+        <%= f.fields_for :home_address do |address_fields| %>
+          <%= address_fields.label :street_address, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :street_address, :class => "form-control"  %>
+          </div>
+          <br />
+          <%= address_fields.label :secondary_address, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :secondary_address, :class => "form-control"  %>
+          </div>
+          <br />
+          <%= address_fields.label :city, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+          <%= address_fields.text_field :city, :class => "form-control"  %>
+          </div>
+          <br />
+          <%= address_fields.label :state_abbr, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :state_abbr, :class => "form-control"  %>
+          </div>
+          <br />
+          <%= address_fields.label :zip, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :zip, :class => "form-control"  %>
+          </div>
+          <br />
+        <% end %>
+        <h5>Billing Address if different</h5>
+        <%= f.fields_for :billing_address do |address_fields| %>
+          <%= address_fields.label :street_address, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :street_address, :class => "form-control"  %>
+          </div>
+          <br />
+          <%= address_fields.label :secondary_address, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :secondary_address, :class => "form-control"  %>
+          </div>
+          <br />
+          <%= address_fields.label :city, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :city, :class => "form-control"  %>
+          </div>
+          <br />
+          <%= address_fields.label :state_abbr, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :state_abbr, :class => "form-control"  %>
+          </div>
+          <br />
+          <%= address_fields.label :zip, :class => "col-md-4 control-label"  %>
+          <div class="col-md-8">
+            <%= address_fields.text_field :zip, :class => "form-control"  %>
+          </div>
+
+          <%= address_fields.hidden_field :billing_address, value: true %>
+        <% end %>
+
+        <br />
+        <br />
+        <div class="form-group">
+          <%= f.label :bio, :class => "col-md-4 control-label" %>
+          <div class="col-md-8">
+            <%= f.text_area :bio, placeholder: "tell us about yourself", :class => "form-control" %>
+          </div>
+        </div>
+        <%= link_to "Answer Match Questions", questions_path(:id), class: "btn btn-large btn-primary btn-block", role: "button" %>
+      <% end %>
+    </div>
+  </div>
+</div>

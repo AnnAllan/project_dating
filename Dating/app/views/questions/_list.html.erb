@@ -1,0 +1,14 @@
+<div class="container">
+  <%= @questions.each do |q| %>
+    <h4>Question # <%= q.id %></h4>
+    <h3><%= q.content %></h3>
+    <%= form_for @questions do |import_fields| %>
+      <%= import_fields.collection_radio_buttons(
+      :import_id,
+      :id,
+      :name) %>
+    <% end %>
+    <br />
+    <br />
+  <% end %>
+</div>
