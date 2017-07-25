@@ -1,16 +1,14 @@
-Questions index
+
 <div class="container">
   <% @questions.each do |q| %>
     <h4>Question # <%= q.id %></h4>
     <h3><%= q.content %></h3>
-    <% @answers.each do |a| %>
-      <%= a.content %>
+    <%= form_for @user do |user_fields| %>
+      <%=user_fields.collection_radio_buttons(:users_questions_answers_ranks,
+                                            possible_ans(q.id, @answers),
+                                            :id,
+                                            :content) %>
+      <%= user_fields.submit %>
     <% end %>
-    <h5>How important is this question to you?</h5>
-    <% @imports.each do |i| %>
-      <%= i.name %>
-    <% end %>
-    <br />
-    <br />
-  <% end %>
 </div>
+<% end %>

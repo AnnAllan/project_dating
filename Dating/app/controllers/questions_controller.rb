@@ -1,12 +1,18 @@
 class QuestionsController < ApplicationController
   def index
     @questions = Question.all
-    @imports = Import.all
+    @ranks = Rank.all
     @answers = Answer.all
+
   end
 
   def show
+    @questions = Question.all
+    @ranks = Rank.all
+    @answers = Answer.all
+    @user = User.find(params[:id])
     @question = Question.find(params[:id])
+    @users_questions_answers_ranks = User.find(params[:id])
   end
 
   def new

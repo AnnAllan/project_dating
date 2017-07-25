@@ -3,12 +3,12 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :addresses,
                                 reject_if: :all_blank,
                                 allow_destroy: true
-                                has_many :questions
+  has_many :questions
 
- has_many :users_questions_answers_imports
- has_many :answers, through: :users_questions_answers_imports,
+ has_many :users_questions_answers_ranks
+ has_many :answers, through: :users_questions_answers_ranks,
                     dependent: :nullify
- has_many :imports, through: :users_questions_answers_imports,
+ has_many :ranks, through: :users_questions_answers_ranks,
                     dependent: :nullify
 
  has_many :initiated_likes, foreign_key: :liker_id,

@@ -12,7 +12,7 @@ Address.destroy_all
 Question.destroy_all
 Answer.destroy_all
 Comment.destroy_all
-Import.destroy_all
+Rank.destroy_all
 Like.destroy_all
 Score.destroy_all
 puts "Old records destroyed"
@@ -26,26 +26,28 @@ puts "Creating 20 users..."
               phone: Faker::PhoneNumber.phone_number,
               credit_card: Faker::Business.credit_card_number,
               gender_identity: Faker::Number.between(1, 3),
-              bio: Faker::HitchhikersGuideToTheGalaxy.quote,
-              home_address: i + 1,
-              billing_address: i + 21)
+              bio: Faker::HitchhikersGuideToTheGalaxy.quote)
 end
 puts "20 Users created."
 
 puts "Creating 40 addresses..."
-def address_generator(billing)
+def address_generator(billing, user_id)
   Address.create(street_address: Faker::Address.street_address,
                  secondary_address: Faker::Address.secondary_address,
                  city: Faker::Address.city,
                  state_abbr: Faker::Address.state_abbr,
                  zip: Faker::Address.zip,
-                 billing_address: billing )
+                 billing_address: billing,
+                 user_id: user_id)
 end
-20.times do
-  address_generator(true)
-  address_generator(false)
+20.times do |i|
+  address_generator(true, i + 1)
+end
+20.times do |i|
+  address_generator(false, i + 1)
 end
 puts "40 addresses created."
+
 
 
 puts "Creating 7 questions..."
@@ -58,73 +60,6 @@ puts "Created 7 questions."
 
 
 puts "Creating Answers..."
-answers_content = ["male", "female", "no preference", "camping", "Netflix", "reading", "partying", "pizza", "steak", "lobster", "pasta", "Sherlock Holmes", "The Doctor", "Superman", "Mickey Mouse", "yes", "no", "yes", "no", "yes", "no"]
-(answers_content.count).times do |i|
-  Answer.create(content: answers_content[i])
-end
-puts "Answers created."
-
-
-puts "Creating Comments..."
-def generate_comment(commentable_type, commentable_id, user_id)
-  Comment.create(message: Faker::FamilyGuy.quote,
-                 commentable_type: commentable_type,
-                 commentable_id: commentable_id,
-                 user_id: user_id)
-end
-5.times do |i|
-  generate_comment("User", i + 1, i + 3)
-  generate_comment("Question", i + 1, i + 3)
-  generate_comment("Comment", i + 1, i + 3)
-end
-
-puts "Creating imports..."
-import_names = ["Not important", "Somewhat important", "Very important", "Imperative"]
-(import_names.count).times do |i|
-  Import.create(name: import_names[i],
-                value: i + 1)
-end
-puts "Imports created."
-
-puts "Creating Likes..."
-10.times do |i|
-  Like.create(liker_id: i + 2,
-               liked_id: i + 3)
-end
-puts "Likes created."
-
-puts "Creating user answers and question rankings..."
-def generate_answer(j)
-  if j == 1
-    ans = rand(1..3)
-  elsif j <= 4
-    ans = rand(1..4)
-  else
-    ans = rand(1..2)
-  end
-  return ans
-end
-
-def generate_import(j)
-  if j == 1
-    imp = 4
-  else
-    imp = rand(1..4)
-  end
-  return imp
-end
-
-20.times do |i|
-  7.times do |j|
-  UsersQuestionsAnswersImport.create(user_id: i + 1,
-                                    question_id: j + 1,
-                                    answer_id: generate_answer(j + 1),
-                                    import_id: generate_import(j + 1))
-  end
-end
-puts "User answers and question rankings created."
-
-puts "Creating questions possible answers..."
 def generate_question_id(a)
   case a
   when 1, 2, 3
@@ -143,9 +78,70 @@ def generate_question_id(a)
     question_id = 7
   end
 end
+answers_content = ["male", "female", "no preference", "camping", "Netflix", "reading", "partying", "pizza", "steak", "lobster", "pasta", "Sherlock Holmes", "The Doctor", "Superman", "Mickey Mouse", "yes", "no", "yes", "no", "yes", "no"]
 (answers_content.count).times do |i|
-  a = i + 1
-  QuestionsPossibleAnswer.create(answer_id: a,
-                                  question_id: generate_question_id(a))
+  Answer.create(content: answers_content[i],
+                question_id: generate_question_id(i + 1))
 end
-puts "Question and possible answers created."
+puts "Answers created."
+
+
+puts "Creating Comments..."
+def generate_comment(commentable_type, commentable_id, user_id)
+  Comment.create(message: Faker::FamilyGuy.quote,
+                 commentable_type: commentable_type,
+                 commentable_id: commentable_id,
+                 user_id: user_id)
+end
+5.times do |i|
+  generate_comment("User", i + 1, i + 3)
+  generate_comment("Question", i + 1, i + 3)
+  generate_comment("Comment", i + 1, i + 3)
+end
+
+puts "Creating ranks..."
+rank_names = ["Not important", "Somewhat important", "Very important", "Imperative"]
+(rank_names.count).times do |i|
+  Rank.create(name: rank_names[i],
+                value: i + 1)
+end
+puts "Ranks created."
+
+puts "Creating Likes..."
+10.times do |i|
+  Like.create(liker_id: i + 2,
+               liked_id: i + 3)
+end
+puts "Likes created."
+
+
+puts "Creating user answers and question rankings..."
+def generate_answer(j)
+  possible_ans = []
+  (Answer.all).each do |a|
+
+    if a.question_id == j
+      possible_ans << a
+    end
+  end
+  return possible_ans.sample
+end
+
+def generate_rank(j)
+  if j == 1
+    imp = 4
+  else
+    imp = rand(1..4)
+  end
+  return imp
+end
+
+20.times do |i|
+  7.times do |j|
+  UsersQuestionsAnswersRank.create(user_id: i + 1,
+                                    question_id: j + 1,
+                                    answer_id: generate_answer(j + 1),
+                                    rank_id: generate_rank(j + 1))
+  end
+end
+puts "User answers and question rankings created."

@@ -10,43 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170720154402) do
+ActiveRecord::Schema.define(version: 20170725122057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
-    t.string   "street_address",    null: false
-    t.string   "secondary_address", null: false
+    t.string   "street_address"
+    t.string   "secondary_address"
     t.string   "city"
     t.string   "state_abbr"
-    t.string   "zip",               null: false
+    t.string   "zip"
     t.boolean  "billing_address"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "user_id"
   end
 
   create_table "answers", force: :cascade do |t|
     t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "question_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "comments", force: :cascade do |t|
     t.text     "message"
     t.integer  "commentable_id"
     t.string   "commentable_type"
+    t.integer  "user_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.integer  "user_id"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
-  end
-
-  create_table "imports", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "likes", force: :cascade do |t|
@@ -54,7 +49,8 @@ ActiveRecord::Schema.define(version: 20170720154402) do
     t.integer  "liked_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["liker_id", "liked_id"], name: "index_likes_on_liker_id_and_liked_id", unique: true, using: :btree
+    t.index ["liked_id"], name: "index_likes_on_liked_id", using: :btree
+    t.index ["liker_id"], name: "index_likes_on_liker_id", using: :btree
   end
 
   create_table "questions", force: :cascade do |t|
@@ -64,11 +60,11 @@ ActiveRecord::Schema.define(version: 20170720154402) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "questions_possible_answers", force: :cascade do |t|
-    t.integer  "question_id"
-    t.integer  "answer_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+  create_table "ranks", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "scores", force: :cascade do |t|
@@ -86,26 +82,28 @@ ActiveRecord::Schema.define(version: 20170720154402) do
     t.string   "email",           null: false
     t.string   "phone",           null: false
     t.string   "credit_card",     null: false
-    t.integer  "home_address"
-    t.integer  "billing_address"
     t.integer  "gender_identity", null: false
+    t.text     "bio"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.text     "bio"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["user_name"], name: "index_users_on_user_name", unique: true, using: :btree
   end
 
-  create_table "users_questions_answers_imports", force: :cascade do |t|
+  create_table "users_addresses", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "address_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users_questions_answers_ranks", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "question_id"
     t.integer  "answer_id"
-    t.integer  "import_id"
+    t.integer  "rank_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["answer_id"], name: "index_users_questions_answers_imports_on_answer_id", using: :btree
-    t.index ["import_id"], name: "index_users_questions_answers_imports_on_import_id", using: :btree
-    t.index ["question_id"], name: "index_users_questions_answers_imports_on_question_id", using: :btree
-    t.index ["user_id"], name: "index_users_questions_answers_imports_on_user_id", using: :btree
   end
 
 end
