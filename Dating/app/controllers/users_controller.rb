@@ -1,16 +1,17 @@
 class UsersController < ApplicationController
   def index
     @users = User.all
+    @current_user = User.find(5)
+    @matching_users = matching_users
   end
 
   def show
     @user = User.find(params[:id])
-
+    @current_user = User.find(5)
   end
 
   def new
     @user = User.new
-
   end
 
   def create
@@ -26,7 +27,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-
+    @current_user = User.find(5)
   end
 
   def update
@@ -55,4 +56,25 @@ class UsersController < ApplicationController
   def safe_user_params
     params.require(:user).permit(:first_name, :last_name, :user_name, :email, :phone, :credit_card, :gender_identity, :bio, {addresses_attributes: [:street_address, :secondary_address, :city, :state_abbr, :zip, :billing]})
   end
+
+  def matching_users
+    matching_users = []
+    matching_users_ids = []
+    partner_id = 0
+    match_score = 0
+    Score.find_each do |score|
+      if score.user_id == @current_user.id
+        partner_id = score.partner_id
+        match_score = score.score
+        if match_score > 0
+          matching_users_ids << partner_id
+        end
+      end
+    end
+    matching_users_ids.each do |i|
+      matching_users << User.find(i)
+    end
+    return matching_users
+  end
+
 end

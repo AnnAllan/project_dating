@@ -119,12 +119,11 @@ puts "Creating user answers and question rankings..."
 def generate_answer(j)
   possible_ans = []
   (Answer.all).each do |a|
-
-    if a.question_id == j
+    if a.question_id.to_i == j.to_i
       possible_ans << a
     end
   end
-  return possible_ans.sample
+  return possible_ans.sample.id
 end
 
 def generate_rank(j)
@@ -145,3 +144,67 @@ end
   end
 end
 puts "User answers and question rankings created."
+
+puts "Creating Score Table..."
+def same_person(user_id, partner_id)
+  return user_id == partner_id
+end
+
+def person_answer(uqar, q, person)
+  if uqar.question_id == q && uqar.user_id == person
+    return uqar.answer_id
+  end
+end
+
+def imperative_fail(user_id, partner_id)
+  user_answer = 0
+  partner_answer = 0
+  match_fail = false
+  UsersQuestionsAnswersRank.find_each do |uqar|
+    if uqar.user_id == user_id && uqar.rank_id == 4
+      user_answer = person_answer(uqar,uqar.question_id, user_id)
+      if uqar.user_id == partner_id
+        partner_answer = person_answer(uqar, uqar.question_id, partner_id)
+        if user_answer != partner_answer
+          match_fail = true
+          return match_fail
+        end
+      end
+    end
+  end
+  return match_fail
+end
+
+def tally_question_score(uqar, user_id, partner_id, question_id)
+  user_answer = person_answer(uqar, question_id, user_id)
+  partner_answer = person_answer(uqar, question_id, partner_id)
+  user_rank = uqar.rank_id
+  if user_answer != partner_answer
+    return 0
+  else
+    return user_rank
+  end
+end
+
+def calculate_score(user_id, partner_id)
+  total_score = 0
+  if same_person(user_id, partner_id)
+    return 0
+  elsif imperative_fail(user_id, partner_id)
+    return 0
+  else
+    UsersQuestionsAnswersRank.find_each do |uqar|
+      total_score += tally_question_score(uqar, user_id, partner_id, uqar.question_id)
+    end
+  end
+  return total_score
+end
+
+User.count.times do |i|
+  User.count.times do |j|
+    Score.create(user_id: i + 1,
+                partner_id: j + 1,
+                score: calculate_score(i + 1, j + 1))
+  end
+end
+puts "Score Table Created"

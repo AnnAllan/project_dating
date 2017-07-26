@@ -1,6 +1,11 @@
 <div class="container">
-  <h1>All Users</h1>
+  <h1>Welcome <%= @current_user.first_name %></h1>
+
+  <%= link_to "Edit my Profile", edit_user_path(@current_user.id), class: "btn btn-large btn-primary btn-block", role: "button" %>
+
   <%= link_to "Add a New User", new_user_path, class: "btn btn-large btn-primary btn-block", role: "button" %>
+
+  <h2>All Matches</h2>
 
   <table class="table table-striped table-bordered"
     <thead>
@@ -26,7 +31,8 @@
       </tr>
     </thead>
     <tbody>
-      <% @users.each do |u| %>
+
+      <% @matching_users.each do |u| %>
         <tr>
           <td>
             <%= link_to "#{u.user_name}", user_path(u.id) %>
@@ -35,16 +41,16 @@
             <%= u.id %>
           </td>
           <td>
-            <%= u.gender_identity %>
+            <%= gender_name(u.gender_identity) %>
           </td>
           <td>
             <p>
-              score
+              <%= partner_score(@current_user, u) %>
             </p>
           </td>
           <td>
             <p>
-              liikes
+              <%= partner_likes(@current_user, u) %>
             </p>
           </td>
           <td>

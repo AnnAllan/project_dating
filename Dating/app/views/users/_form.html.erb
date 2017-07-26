@@ -3,7 +3,7 @@
     <div class="col-md-6">
       <%= render "users/shared/errors", object: user %>
       <%= form_for user, {html: {class: "form-horizontal"}} do |f| %>
-        <h2><%= form_type %> user: </h2>
+        <h2><%= form_type %> User</h2>
 
         <div class="form-group">
           <%= f.label :first_name, :class => "col-md-4 control-label" %>
@@ -58,63 +58,9 @@
           </div>
         </div>
 
-        <h5>Home Address</h5>
-        <%= f.fields_for :home_address do |address_fields| %>
-          <%= address_fields.label :street_address, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :street_address, :class => "form-control"  %>
-          </div>
-          <br />
-          <%= address_fields.label :secondary_address, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :secondary_address, :class => "form-control"  %>
-          </div>
-          <br />
-          <%= address_fields.label :city, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-          <%= address_fields.text_field :city, :class => "form-control"  %>
-          </div>
-          <br />
-          <%= address_fields.label :state_abbr, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :state_abbr, :class => "form-control"  %>
-          </div>
-          <br />
-          <%= address_fields.label :zip, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :zip, :class => "form-control"  %>
-          </div>
-          <br />
-        <% end %>
-        <h5>Billing Address if different</h5>
-        <%= f.fields_for :billing_address do |address_fields| %>
-          <%= address_fields.label :street_address, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :street_address, :class => "form-control"  %>
-          </div>
-          <br />
-          <%= address_fields.label :secondary_address, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :secondary_address, :class => "form-control"  %>
-          </div>
-          <br />
-          <%= address_fields.label :city, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :city, :class => "form-control"  %>
-          </div>
-          <br />
-          <%= address_fields.label :state_abbr, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :state_abbr, :class => "form-control"  %>
-          </div>
-          <br />
-          <%= address_fields.label :zip, :class => "col-md-4 control-label"  %>
-          <div class="col-md-8">
-            <%= address_fields.text_field :zip, :class => "form-control"  %>
-          </div>
-
-          <%= address_fields.hidden_field :billing_address, value: true %>
-        <% end %>
+        <div class="form-group">
+          <%= render partial: "address_fields", locals: {f: f} %>
+        </div>
 
         <br />
         <br />
@@ -124,7 +70,7 @@
             <%= f.text_area :bio, placeholder: "tell us about yourself", :class => "form-control" %>
           </div>
         </div>
-        <%= f.submit %>
+        <%= f.submit "#{user.persisted? ? "Edit User" : "Create User"}", class: "btn btn-primary"%>
       <% end %>
 
     </div>
