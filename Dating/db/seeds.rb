@@ -109,9 +109,11 @@ puts "Ranks created."
 
 puts "Creating Likes..."
 10.times do |i|
-  Like.create(liker_id: i + 2,
-               liked_id: i + 3)
+  Like.create(liker_id: i + 1,
+               liked_id: i + 2)
 end
+Like.create(liker_id: 5,
+            liked_id: 4)
 puts "Likes created."
 
 

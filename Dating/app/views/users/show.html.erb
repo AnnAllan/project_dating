@@ -1,4 +1,5 @@
 <div class="container">
+  <%= render "shared/errors", :object => @user %>
   <h1><%= @user.first_name %> <%= @user.last_name %></h1>
   <h2><%= @user.user_name %></h2>
   <h3>Email: <%= @user.email %></h3>
@@ -10,9 +11,10 @@
   <br />
   <br />
   <%= link_to "Back to All Matches", root_path, class: "btn btn-primary"%>
-  <%= form_for :like do |f| %>
-    <input type="hidden" name="liker_id" value=@current_user.id />
-    <input type="hidden" name="liked_id" value=@user.id />
+  <%= render "shared/flash", :object => @like %>
+  <%= form_for Like.create do |f| %>
+    <%= f.hidden_field(:liker_id, value: @current_user.id) %>
+    <%= f.hidden_field(:liked_id, value: @user.id) %>
     <%= f.submit "Like #{@user.first_name}", class: "btn btn-primary"%>
   <% end %>
 </div>

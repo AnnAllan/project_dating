@@ -1,17 +1,17 @@
 class LikesController < ApplicationController
-  def Create
-    @like = Like.new(safe_like_params)
+  def create
+    @like = Like.create(safe_like_params)
     if @like.save
       flash[:success] = "Like created."
       redirect_back(fallback_location: root_path)
     else
-      flash.new[:error] = "Unable to like user. "
+      flash[:error] = "Unable to like user. "
       redirect_back(fallback_location: root_path)
     end
 
   end
 
-  def Destroy
+  def destroy
   end
 
   private

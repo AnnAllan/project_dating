@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def index
-    @users = User.all
+    @users = User.order(id: :desc)
     @current_user = User.find(5)
     @matching_users = matching_users
   end

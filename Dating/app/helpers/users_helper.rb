@@ -72,12 +72,59 @@ module UsersHelper
   end
 
   def partner_likes(current_user, partner)
+    curr_user_likes = []
+    partner_likes = []
     Like.find_each do |l|
-      if (l.liker_id == current_user.id && l.liked_id == partner.id) && (l.liked_id == current_user.id && l.liker_id == partner_id)
-        return "XOXOXO"
-      else
-        return "--"
+      if l.liker_id == current_user.id
+        curr_user_likes << l.liked_id
       end
+      if l.liker_id == partner.id
+        partner_likes << l.liked_id
+      end
+    end
+    if (curr_user_likes.include?(partner.id)) && (partner_likes.include?(current_user.id))
+      return true
+    else
+      return false
+    end
+  end
+
+  def partner_degrees(current_user, partner)
+    matchers = [current_user]
+    previous_matchers = []
+    temp_matchers = []
+    connection = false
+    i = 1
+    while !connection do
+      matchers.each do |x|
+        connection = partner_likes(x, partner)
+        break if connection
+      end
+      matchers.each do |y|
+        User.find_each do |u|
+          temp_matchers << u if partner_likes(y, u)
+        end
+      end
+      break if temp_matchers.empty?
+      matchers.each do |a|
+        previous_matchers << a
+      end
+      matchers.clear
+      old_matchers = previous_matchers & temp_matchers
+      old_matchers.each do |b|
+        temp_matchers.delete(b)
+      end
+      break if temp_matchers.empty?
+      temp_matchers.each do |z|
+        matchers << z
+      end
+      temp_matchers.clear
+      i += 1
+    end
+    if connection
+      return i
+    else
+      return "No connection"
     end
   end
 end

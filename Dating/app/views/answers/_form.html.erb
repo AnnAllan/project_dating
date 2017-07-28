@@ -1,0 +1,18 @@
+<%= form_for Answer.create, {html: {class: "form-horizontal"}} do |f| %>
+  <h2><%= form_type %> Answer</h2>
+
+  <h3>Please submit upto 4 possible answers for your question.</h3>
+
+  <div class="form-group">
+    <%= f.label :content, :class => "col-md-4 control-label" %>
+    <div class="col-md-8">
+      <%= f.text_area :content, placeholder: "enter answer here", :class => "form-control" %>
+    </div>
+  </div>
+
+
+  <%= f.hidden_field(:question_id, value: question_id) %>
+
+  <%= f.submit "#{answer.persisted? ? "Edit Answer" : "Create Answer"}", class: "btn btn-primary"%>
+<% end %>
+<%= link_to "Home", root_path, class: "btn btn-primary" %>

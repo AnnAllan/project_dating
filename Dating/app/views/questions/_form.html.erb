@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <%= render "shared/flash", :object => @question %>
+      <%= form_for Question.create, {html: {class: "form-horizontal"}} do |f| %>
+        <h2><%= form_type %> Question</h2>
+
+        <div class="form-group">
+          <%= f.label :content, :class => "col-md-4 control-label" %>
+          <div class="col-md-8">
+            <%= f.text_area :content, placeholder: "enter question here", :class => "form-control" %>
+          </div>
+        </div>
+
+
+        <%= f.hidden_field(:user_id, value: current_user.id) %>
+
+        <%= f.submit "#{question.persisted? ? "Edit Question" : "Create Question"}", class: "btn btn-primary"%>
+      <% end %>
+      <%= link_to "Add Answers", new_answer_path, class: "btn btn-primary"%>
+    </div>
+  </div>
+</div>

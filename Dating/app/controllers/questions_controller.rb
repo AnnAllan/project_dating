@@ -17,9 +17,19 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @current_user = User.find(5)
+
   end
 
   def create
+    @question = Question.create(safe_question_params)
+    if @question.save
+      flash[:success] = "Question created, please add answers."
+      redirect_to new_answer_path
+    else
+      flash.now[:error] = "Unable to create question. "
+      render 'new'
+    end
   end
 
   def edit
@@ -31,5 +41,10 @@ class QuestionsController < ApplicationController
 
   def destroy
 
+  end
+
+  private
+  def safe_question_params
+    params.require(:question).permit(:content, :user_id)
   end
 end

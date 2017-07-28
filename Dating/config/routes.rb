@@ -3,11 +3,14 @@ Rails.application.routes.draw do
   root 'users#index'
   resources :users do
     resources :comments
-    resources :likes
 
   end
   resources :questions do
     resources :comments
   end
+
+  resources :answers 
+
+  resources :likes
 
 end
