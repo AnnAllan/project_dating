@@ -3,7 +3,6 @@ class QuestionsController < ApplicationController
     @questions = Question.all
     @ranks = Rank.all
     @answers = Answer.all
-
   end
 
   def show

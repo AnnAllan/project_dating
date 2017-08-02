@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  
   def index
     @users = User.order(id: :desc)
     @current_user = User.find(5)

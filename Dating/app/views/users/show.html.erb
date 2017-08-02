@@ -17,4 +17,5 @@
     <%= f.hidden_field(:liked_id, value: @user.id) %>
     <%= f.submit "Like #{@user.first_name}", class: "btn btn-primary"%>
   <% end %>
+  <%= render :partial => "shared/comments", :locals => {:resource => @user} %>
 </div>
