@@ -6,13 +6,13 @@
   <% end %>
 <% end %>
 <h2>Add a comment</h2>
-<% form_for [:new, resource, Comment.create], {:html => {:class => "form-horizontal" }}  do |f| %>
+<%= form_for resource.comments.build, {:html => {:class => "form-horizontal" }}  do |f| %>
   <div class="form-group">
     <%= f.label :message, class: "col-md-4 control-label" %>
     <%= f.text_area :message, placeholder: "enter message here", class: "form-control" %>
   </div>
-  <%= f.hidden_field(:commentable_id, value: @user.id) %>
-  <%= f.hidden_field(:commentable_type, value: resource) %>
+  <%= f.hidden_field(:commentable_id, value: resource.id) %>
+  <%= f.hidden_field(:commentable_type, value: resource.class) %>
 
   <%= f.submit class: "btn btn-primary" %>
 <% end %>

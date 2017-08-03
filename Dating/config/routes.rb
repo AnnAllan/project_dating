@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :answers
+  resources :comments, :only => [:create]
 
   resources :likes
 
