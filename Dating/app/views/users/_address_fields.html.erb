@@ -1,7 +1,7 @@
 <h5>Addresses</h5>
 <h6>Billing Address</h6>
 <input type="hidden" name="billing_address" value=true />
-<%= f.fields_for(:addresses) do |address_fields| %>
+<%= f.fields_for :addresses do |address_fields| %>
   <%= address_fields.label :street_address, class: "col-md-4 control-label"  %>
   <div class="col-md-8">
     <%= address_fields.text_field :street_address, placeholder: "enter street", class: "form-control"  %>

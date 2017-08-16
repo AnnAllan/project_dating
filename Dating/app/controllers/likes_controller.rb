@@ -12,6 +12,16 @@ class LikesController < ApplicationController
   end
 
   def destroy
+    @users = User.order(id: :desc)
+    @current_user = User.find(5)
+    @like = Like.where(liker_id: @current_user.id)
+                  .where(liked_id: @user.id).first
+    if @like.destroy
+      redirect_to user_path(@user.id)
+    else
+      flash.now[:error] = "Unable to unlike user."
+      render 'show'
+    end
   end
 
   private

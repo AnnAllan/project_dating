@@ -1,4 +1,6 @@
 <% if object.errors.any? %>
+  <h3>There are errors</h3>
+puts object.errors.full_message
   <div class="alert alert-danger" role="alert">
     <% if object.errors.any? %>
       <div id="error_explanation">

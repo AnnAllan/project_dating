@@ -12,10 +12,17 @@
   <br />
   <%= link_to "Back to All Matches", root_path, class: "btn btn-primary"%>
   <%= render "shared/flash", :object => @like %>
-  <%= form_for Like.create do |f| %>
-    <%= f.hidden_field(:liker_id, value: @current_user.id) %>
-    <%= f.hidden_field(:liked_id, value: @user.id) %>
-    <%= f.submit "Like #{@user.first_name}", class: "btn btn-primary"%>
+  <% if !@liked %>
+    <%= form_for Like.create do |f| %>
+      <%= f.hidden_field(:liker_id, value: @current_user.id) %>
+      <%= f.hidden_field(:liked_id, value: @user.id) %>
+      <%= f.submit "Like #{@user.first_name}", class: "btn btn-primary"%>
+    <% end %>
+  <% else %>
+    <%= form_for Like.destroy(@liked.id) do |f| %>
+      <%= f.submit "Unlike #{@user.first_name}", class: "btn btn-primary" %>
+    <% end %>
   <% end %>
-  <%= render :partial => "shared/comments", :locals => {:resource => @user} %>
+
+  <%= render :partial => "shared/comments", :locals => {:resource => @user, :current_user => @current_user, :commentable => @user} %>
 </div>

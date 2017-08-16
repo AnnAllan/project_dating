@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+
   def index
     @users = User.order(id: :desc)
     @current_user = User.find(5)
@@ -9,10 +9,13 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @current_user = User.find(5)
+    @liked = Like.where(liker_id: @current_user.id)
+                  .where(liked_id: @user.id).first
   end
 
   def new
     @user = User.new
+    2.times { @user.addresses.build}
   end
 
   def create
